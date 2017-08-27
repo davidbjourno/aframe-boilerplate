@@ -5,14 +5,56 @@
     <title>Hello, World! - A-Frame</title>
     <meta name="description" content="Hello, World! - A-Frame">
     <script src="https://aframe.io/releases/0.3.2/aframe.min.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-text-component/master/dist/aframe-text-component.min.js"></script>
   </head>
   <body>
-    <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
+    <p id="loading">Loading...</p>
+
+    <a-scene style="display: none">
+      <a-assets>
+        <video id="static" src="assets/static.mp4" preload="auto" loop="true" />
+        <video id="who" src="assets/who.mp4" preload="auto" />
+        <video id="where" src="assets/where.mp4" preload="auto" />
+      </a-assets>
+
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+
+      <a-videosphere id="videosphere" src="#static" rotation="0 -120 0"></a-videosphere>
+
+      <a-plane position="0 1.4 -2" rotation="0 0 0" width="1" height="0.15" color="#27757b" id="button-a">
+        <a-entity text="text: Who are you?; size: 0.05;" position="-0.2 -0.02 0" material="color: #fff"></a-entity>
+      </a-plane>
+
+      <a-plane position="0 1.2 -2" rotation="0 0 0" width="1" height="0.15" color="#27757b">
+        <a-entity text="text: Where are you?; size: 0.05;" position="-0.25 -0.02 0" material="color: #fff"></a-entity>
+      </a-plane>
+
+      <a-plane position="0 1 -2" rotation="0 0 0" width="1" height="0.15" color="#27757b">
+        <a-entity text="text: What do you do?; size: 0.05;" position="-0.27 -0.02 0" material="color: #fff"></a-entity>
+      </a-plane>
     </a-scene>
+
+    <script>
+      var scene = document.getElementsByTagName('a-scene')[0];
+      var assets = document.getElementsByTagName('a-assets')[0];
+      var staticVideo = document.getElementById('static')
+      var whoVideo = document.getElementById('who')
+      var videosphere = document.getElementById('videosphere');
+      var buttonA = document.getElementById('button-a');
+
+      assets.addEventListener('loaded', function () {
+        document.getElementById('loading').style.display = 'none';
+        scene.style.display = "block";
+        staticVideo.play();
+      });
+
+      buttonA.addEventListener('click', function () {
+        staticVideo.pause();
+        videosphere.setAttribute('src', '#who');
+        whoVideo.play();
+      });
+    </script>
   </body>
 </html>
